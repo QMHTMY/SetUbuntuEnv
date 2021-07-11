@@ -1,0 +1,44 @@
+#!/bin/bash
+# 合并两个视频文件为一个
+# $* $# $0-$9
+#echo "Usage: ${var%/*} input1.mp4 input2.mp4 output.mp4"
+
+### Description:
+###     Videocombiner — use mencoder to combine radioes.
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Videocombiner <video1> <video2> <output>
+###
+### Options:
+###     <video1>     Input first video.
+###     <video2>     Input second video.
+###     <output>     Combined video.
+###     -h,--help    Show help message.
+###
+### Support formats
+###     .avi .flv .mkv .mov .mpg .mp4 .mpeg .rmvb .wmv
+###
+### Example:
+###     Videocombiner video1.mp4 video2.mp4 combined.mp4
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]] || [[ $# -ne 3 ]]; then
+    help
+    exit 1
+else
+    for file in $*; do
+        if [ "${file##*.}" != "mp4" ]
+        then
+            echo "${file} must endswith .mp4"
+            exit 1
+        fi
+    done
+fi
+
+mencoder -ovc copy -oac mp3lame $1 $2 -o $3

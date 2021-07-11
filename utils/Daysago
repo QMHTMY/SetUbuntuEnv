@@ -1,0 +1,76 @@
+#!/bin/bash
+#查找某日期距离今天的天数(可前也可后)
+#用零时时间戳计算，不用考虑小数问题
+
+### Description:
+###     Daysago — calculate the days duration between date and today
+###               calculate the days duration between date1 and date2.
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Daysago <date>
+###     Daysago <date1> <date2>
+###
+### Options:
+###     <date>     Input a date.
+###     <date1>    Input a beign date.
+###     <date2>    Input a end date.
+###     -h,--help  Show help message.
+###
+### Example:
+###     Daysago 2020-01-01
+###     Daysago 2019-10-01
+###     Daysago 2021-12-31 2020-07-01
+###     Daysago 2020-07-01 2021-12-31
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+secondPerday=86400
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [[ $# == 2 ]]; then                            #有两个参数，计算各自时间戳
+    timeStampBegin=`date -d $1 +%s`
+    timeStampEnd=`date -d $2 +%s`
+
+    if [ $timeStampBegin -ge $timeStampEnd ]; then  #时间顺序反了
+        days=$[ ($timeStampBegin - $timeStampEnd) / $secondPerday ] #计算天数差
+    else
+        days=$[ ($timeStampEnd - $timeStampBegin) / $secondPerday ] #计算天数差
+    fi
+
+    if [ $days -gt 1 ]; then
+        days="$days days between $1 and $2"
+    else
+        days="$days day between $1 and $2"
+    fi
+
+    echo $days
+else                                                #有一个参数，转换为时间戳
+    timeStampInput=`date -d $1 +%s`                 #输入日期零时时间戳
+    Today=`date +%Y-%m-%d`                          #今日日期
+    timeStampToday=`date -d $Today +%s`             #今日零时时间戳
+
+    if [ $timeStampToday -ge $timeStampInput ]; then  #以前时间
+        days=$[ ($timeStampToday - $timeStampInput) / $secondPerday ] #计算天数
+        if [ $days -gt 1 ]; then
+            days="$days days ago"
+        else
+            days="$days day ago"
+        fi
+    else                                              #未来时间(含今天)
+        days=$[ ($timeStampInput - $timeStampToday) / $secondPerday ] #计算天数
+        if [ $days -gt 1 ]; then
+            days="$days days after"
+        else
+            days="$days day after"
+        fi
+    fi
+
+    echo $days
+fi

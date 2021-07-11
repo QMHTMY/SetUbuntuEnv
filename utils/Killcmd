@@ -1,0 +1,34 @@
+#!/bin/bash
+#set -euxo pipefail
+#输入命令的名称(可以只是一部分)，自动杀死其进程
+
+### Description:
+###     Killcmd — use kill to kill process with a process name (or name pattern)
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Killcmd   <process-name>
+###
+### Options:
+###     <process-name>  Input a process name.
+###     -h,--help       Show help message.
+###
+### Example:
+###     Killcmd firfox
+###     Killcmd chrome
+###     Killcmd script.sh
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else             #有参数，查找并杀死
+    pid=`ps -aux | grep $1 | head -n 1 | awk '{print $2}'`
+    kill -9 ${pid}
+fi

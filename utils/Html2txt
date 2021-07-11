@@ -1,0 +1,53 @@
+#!/bin/bash
+#转换xhtml html htm文件为txt
+
+### Description:
+###     Html2txt — use lynx to convert .html to .txt
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Html2txt
+###     Html2txt   <html>
+###
+### Options:
+###     <html>     Input a html file.
+###     -h,--help  Show help message.
+###     If omit parameters, the default action is to convert all html file to txt.
+###
+### Surport format:
+###     .htm .html .xhtml
+###
+### Example:
+###     Html2txt
+###     Html2txt   filename.htm
+###     Html2txt   filename.html
+###     Html2txt   filename.xhtm
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+function dump2txt(){
+    if   [ ${1##*.} = "html"  ]; then
+        lynx -dump ${1} > ${1%.*}.txt 2>/dev/null
+    elif [ ${1##*.} = "xhtml" ]; then
+        lynx -dump ${1} > ${1%.*}.txt 2>/dev/null
+    elif [ ${1##*.} = "htm"   ]; then
+        lynx -dump ${1} > ${1%.*}.txt 2>/dev/null
+    fi
+}
+
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [ -n "${1}" ]; then  #有输入参数，依后缀转换(x)html文件
+    dump2txt ${1}
+else                      #无输入参数，转换当前目录下所有(x)html文件
+    for html in `ls .`
+    do
+        dump2txt ${html}
+    done
+fi

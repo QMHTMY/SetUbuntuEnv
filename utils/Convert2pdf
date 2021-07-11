@@ -1,0 +1,71 @@
+#!/bin/bash
+# set -euxo pipefail
+# 转换txt/html/docx/markdown/restrucetedText/asciidoc格式文档为pdf
+# 中文字体是楷体，英文字体是Times Newer Roman，若无字体则需安装
+
+### Description:
+###     Convert2pdf — use pandoc to convert file to PDF format
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+### Dependency:
+###     sudo apt install pandoc
+###
+### Usage:
+###     Convert2pdf <filename>
+###     Convert2pdf <format>
+###
+### Options:
+###     <fileanme>  Input a file.
+###     <format>    Input a file format to convert all to pdf.
+###     -h,--help   Show help message.
+###
+### Support formats 
+###     .txt .html .doc .docx .md .rst .adoc
+###
+### Example:
+###     Convert2pdf file.html
+###     Convert2pdf docx
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+function convert2pdf() {
+    pandoc -s --latex-engine=xelatex -V CJKmainfont="KaiTi" -V mainfont="Times Newer Roman" ${1} -o "${1%.*}.pdf"
+}
+
+
+startTime=`date +%s`      #计时开始
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [ -f "${1}" ]; then  #有参数，且为文件
+    if   [ "${1##*.}" = "txt"  ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "html" ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "doc"  ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "docx" ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "md"   ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "rst"  ]; then
+        convert2pdf ${1}
+    elif [ "${1##*.}" = "adoc" ]; then
+        convert2pdf ${1}
+    fi
+else                      #有参数，且为格式，则转换目录下所有该格式文件为pdf
+    for file in `ls .`
+    do
+        if [ "${file##*.}" = "${1}" ]; then
+            convert2pdf ${file}
+        fi
+    done
+fi
+
+endTime=`date +%s`         #计时结束
+sumTime=$[ $endTime - $startTime ] 
+echo "耗时: $sumTime(秒)"

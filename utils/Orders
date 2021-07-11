@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ls /usr/local/shibin/ | sed -n '1,$p' | awk "{print $9}"
+ls /usr/local/shibin/ | sed -n '1,$p' | awk "{print $9}" | wc -l

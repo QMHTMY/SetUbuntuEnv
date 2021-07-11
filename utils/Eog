@@ -1,0 +1,45 @@
+#!/bin/bash
+#用eog查看图片同时忽略错误信息
+
+### Description:
+###     Eog — use eog to open image while avoiding error message.
+###
+### Date: 2021.05.07
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Eog <image>
+###
+### Options:
+###     <image>     Input a image.
+###     -h,--help   Show help message.
+###
+### Support formats
+###     .avif .gif .jpg .jpeg .png
+###
+### Example:
+###     Eog car.png
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else  #有参数，判断输入参数格式是否为图片并打开
+    if   [ ${1##*.} = "png"  ]; then
+        eog $1 >/dev/null 2>&1 &
+    elif [ ${1##*.} = "jpg"  ]; then
+        eog $1 >/dev/null 2>&1 &
+    elif [ ${1##*.} = "jpeg" ]; then
+        eog $1 >/dev/null 2>&1 &
+    elif [ ${1##*.} = "gif"  ]; then
+        eog $1 >/dev/null 2>&1 &
+    elif [ ${1##*.} = "avif" ]; then
+        eog $1 >/dev/null 2>&1 &
+    else
+        echo 'Wrong format! support formats: avif|gif|jpg|jgep|png'
+    fi
+fi

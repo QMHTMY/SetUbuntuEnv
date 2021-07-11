@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Date: 2021.05.08
+# 屏幕录制 gif
+
+byzanz-record -w 1000 -h 600 -c -d 5 --delay=1 current.gif

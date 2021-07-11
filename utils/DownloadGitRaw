@@ -1,0 +1,33 @@
+#!/bin/bash
+# Date: 2020.07.09
+# 输入git上某文件链接，提取其raw下载路径并自动下载
+
+### Description:
+###     Getgitraw — download file from github file url
+###
+### Author:
+###     Shieber <QMH_XB_FLTMY@yahoo.com>
+###
+### Usage:
+###     Getgitraw   <url>
+###
+### Options:
+###     <url>       Input a github file url.
+###     -h,--help   Show help message.
+###
+### Example:
+###     Getgitraw https://github.com/user/repository/blob/master/filename.pdf
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+prefix="https://raw.githubusercontent.com/"
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else                               #参数为url，构造下载地址并下载
+    suffix=`echo $1 | sed 's/https:\/\/github.com\///' | sed 's/blob\///'`
+    axel -a $prefix$suffix
+fi

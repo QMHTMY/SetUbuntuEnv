@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+# 文档打包器：将文档打包为Zip格式文件
+
+import zipfile
+import re, os, sys
+
+def iszip(item):
+    '''排除zip文件'''
+    zipP  = re.compile(r'(.*)\.zip')
+    match = zipP.search(item)
+    if match != None:
+        return True
+    else:
+        return False
+
+def isredundent(name):
+    '''排除冗余文件'''
+    nameP = re.compile(r'\./(.*)/(.*)')
+    match = nameP.search(name)
+    if match != None:
+        return True
+    else:
+        return False
+
+def compressfile(path, target):
+    '''递归式的查找文件并压缩'''
+    #curdir = os.getcwd()
+    for parent,dirnames,filenames in os.walk(path):
+        for dirname in  dirnames:
+            compressfile(dirname,target)
+        for filename in filenames:
+            if iszip(filename):
+                continue
+
+            name = os.path.join(parent,filename)
+            if isredundent(name):
+                continue
+
+            nameP = re.compile(r'\./(.*)')
+            match = nameP.search(name)
+            if match:
+                name = match.group(1)
+
+            target.write(name)
+
+def zippack(argv):
+    '''打包总程序'''
+    if len(argv) != 2:
+        scriptName = os.path.basename(argv[0])
+        print(f"Usage: {scriptName} [filename].zip")
+        sys.exit(-1)
+
+    filename = os.getcwd() + '/' + argv[1] + '.zip'
+    with zipfile.ZipFile(filename,'w') as target:
+        compressfile('.', target)
+
+    return filename
+
+if __name__ == "__main__":
+    zippack(sys.argv)

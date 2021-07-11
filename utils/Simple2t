@@ -1,0 +1,47 @@
+#!/bin/bash
+# 2020-07-12
+# 用opencc进行简繁转换
+# sudo apt install opencc
+
+### Description:
+###     Simple2t — convert Simplified Chinese to Traditional Chinese.
+###
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Simple2t <s-chars>
+###     Simple2t <ifile>
+###     Simple2t <ifile> <ofile>
+###
+### Options:
+###     <s-chars>   Input Simplified Chinese characters.
+###     <ifile>     Input a filename which contains Simplified Chinese characters.
+###     <ofile>     Input a filename for saving the output.
+###     -h,--help   Display help message.
+###
+### Example:
+###     Simple2t 庆丰
+###     Simple2t siplified.txt
+###     Simple2t siplified.txt traditional.txt
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ $# > 2 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [[ $# == 1 ]]; then
+    if [[ -f $1 ]]; then
+        opencc -c s2t -i $1
+    else
+        echo $1 | opencc -c s2t
+    fi
+else
+    if [[ -f $1 ]]; then
+        opencc -c s2t -i $1 -o $2
+    else
+        help
+    fi
+fi

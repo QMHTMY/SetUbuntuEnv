@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#firefox https://wx.qq.com
+google-chrome https://wx.qq.com

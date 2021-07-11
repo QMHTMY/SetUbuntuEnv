@@ -1,0 +1,39 @@
+#!/bin/bash
+#用vlc打开mp3、mp4文件并放到后台运行
+#Ctrl + W可关闭文件
+
+### Description:
+###     vlc — use vlc to open mp3, mp4 while avoiding error message.
+###
+### Date: 2021.01.12
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     vlc  <file>
+###
+### Options:
+###     <file>     Input a mp3 or mp4 file
+###     -h,--help  Show help message.
+###
+### Example:
+###     vlc radio.mp3
+###     vlc video.mp4
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else                              #有参数，打开文件
+    if [ "${1##*.}" = "mp4" ]; then
+        vlc $1 >/dev/null 2>&1 &  #用vlc打开mp4，忽略各种错误信息
+    elif [ ${1##*.} = "mp3" ]; then
+        vlc $1 >/dev/null 2>&1 &  #用vlc打开mp3，忽略各种错误信息
+    else
+        echo 'Wrong format! surport format: xxx.mp3|xxx.mp4'
+        exit 1
+    fi
+fi

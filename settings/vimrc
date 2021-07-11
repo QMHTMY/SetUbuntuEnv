@@ -1,0 +1,203 @@
+"""""""""""""""""""""""
+" 0. Vim plugin manager
+"""""""""""""""""""""""
+set nocompatible                         "关闭兼容vi模式 
+"filetype off                 
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'codota/tabnine-vim'               "AI智能补全代码
+Plugin 'lervag/vimtex'                    "latex 语法支持
+Plugin 'iamcco/markdown-preview.nvim'     "支持 Markdown dot chart flowchart plantuml 
+Plugin 'scrooloose/nerdtree'              "项目文件树 进入项目输入 vim . 查看文件
+Plugin 'sheerun/vim-polyglot'             "支持多语言语法
+Plugin 'jiangmiao/auto-pairs'             "输入左括号，自动出现右括号
+Plugin 'luochen1990/rainbow'              "彩虹括号，便于查看
+Plugin 'tpope/vim-surround'               "修改成对的括号，引号
+Plugin 'ntpeters/vim-better-whitespace'   "删除末尾多余空格
+"Plugin 'SirVer/ultisnips'                 "代码片端 snippet 使用 配合 vim-snippets 使用
+"Plugin 'QMHTMY/vim-snippets'              "自定义代码片端
+call vundle#end()          
+
+filetype plugin on                       "文件类型检测
+filetype indent on                       "文件自动缩进
+" 忽视插件改变缩进,可以使用以下替代:
+" 常用的命令
+" :PluginList       - 列出所有已配置的插件
+" :PluginInstall    - 安装插件,追加 `!` 以更新或使用 
+" :PluginUpdate     - 更新插件 
+" :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
+" :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
+" :bdelete 
+" 将你自己对非插件片段放在这行之后
+" 移除不需要的插件
+" 编辑.vimrc文件移除的你要移除的插件所对应的plugin那一行。
+" 保存，输入命令BundleClean。
+
+
+"""""""""""""""""""""""
+" 1.Vimtex plugin 
+"""""""""""""""""""""""
+let g:tex_flavor='xelatex'
+let g:vimtex_quickfix_mode=0
+let g:vimtex_view_general_viewer = 'evince'
+"let g:vimtex_latexmk_options='-pdf -pdflatex="xelatex -synctex=1 \%S \%O" -verbose -file-line-error -interaction=nonstopmode'
+let g:vimtex_compiler_latexmk={
+    \ 'options' : [
+    \ '-xelatex',
+    \ '-verbose',
+    \ '-file-line-error',
+    \ '-synctex=1',
+    \ '-interaction=nonstopmode',
+    \ ],
+    \}
+"let g:TexDefaultTargetFormat = 'pdf'
+"%! Tex program = xelatex 解决中文编译失败问题
+"\ll \lv \lk \le \lc \lC
+
+
+"""""""""""""""""""""""
+" 2.Markdown preview
+"""""""""""""""""""""""
+"nmap <silent> <F8> <Plug>MarkdownPreview        "普通模式
+"imap <silent> <F8> <Plug>MarkdownPreview        "插入模式
+"nmap <silent> <F9> <Plug>StopMarkdownPreview    "普通模式
+"imap <silent> <F9> <Plug>StopMarkdownPreview    "插入模式
+nmap <C-s> <Plug>MarkdownPreview
+nmap <M-s> <Plug>MarkdownPreviewStop
+nmap <C-p> <Plug>MarkdownPreviewToggle
+ 
+let g:mkdp_auto_start = 1
+" 设置为1可以在打开markdown文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
+let g:mkdp_auto_close = 1
+" 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
+let g:mkdp_refresh_slow = 0
+" 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
+let g:mkdp_command_for_global = 0
+" 设置为 1 则所有文件都可以使用 MarkdownPreview 进行预览，默认只有markdown文件可以使用该命令
+let g:mkdp_open_to_the_world = 0
+" 设置为 1, 在使用的网络中的其他计算机也能访问预览页面
+let g:mkdp_open_ip = ''
+"远程使用 ip
+let g:mkdp_browser = ''
+" 设置浏览器
+let g:mkdp_echo_preview_url = 0
+" 设置为 1, 显示预览 url
+let g:mkdp_browserfunc = ''
+" vim 回调函数, 参数为要打开的 url
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false,
+    \ 'disable_filename': 0
+    \ }
+"各种支持的插件功能
+let g:mkdp_markdown_css = ''
+"设置 markdown css 文件
+let g:mkdp_highlight_css = ''
+"设置 高亮 css 文件
+let g:mkdp_port = ''
+"设置端口
+let g:mkdp_page_title = '「${name}」'
+"设置文件标题
+let g:mkdp_filetypes = ['markdown']
+"设置文件类型
+
+
+"""""""""""""""""""""""
+" 3.Asciidoc preview
+"""""""""""""""""""""""
+"nnoremap <F2> :silent update<Bar>silent !firefox %:p &<CR>
+"nnoremap <F2> f :exe ':silent !firefox %'<CR>
+nnoremap <F2> f :exe ':silent !google-chrome %'<CR>
+"let g:asdp_path_to_chrome = ""
+" 设置 chrome 浏览器的路径（或是启动 chrome（或其他现代浏览器）的命令）
+"let g:asdp_browserfunc = 'ASDP_browserfunc_default'
+" vim 回调函数, 参数为要打开的url
+"let g:asdp_auto_start = 1
+" 设置为1可以在打开asciidoc文件的时候自动打开浏览器预览，只在打开asciidoc文件的时候打开一次
+"let g:asdp_auto_open = 1
+" 设置为1在编辑asciidoc的时候检查预览窗口是否已经打开，否则自动打开预览窗口
+"let g:asdp_auto_close = 1
+"" 在切换buffer的时候自动关闭预览窗口，设置为0则在切换buffer的时候不自动关闭预览窗口
+"let g:asdp_refresh_slow = 0
+"" 设置为1则只有在保存文件，或退出插入模式的时候更新预览，默认为0，实时更新预览
+"let g:asdp_command_for_global = 0
+"" 设置为1则所有文件都可以使用AsciicdocPreview 进行预览，默认只有asciidoc文件可以使用该命令
+"let g:asdp_open_to_the_world = 0
+"" 设置为1, 在使用的网络中的其他计算机也能访问预览页面
+"" 默认只监听本地（127.0.0.1），其他计算机不能访问
+
+
+""""""""""""""""""""
+" 4.Limelight 
+""""""""""""""""""""
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+
+" Color name (:help gui-colors) or RGB color
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_conceal_guifg = '#777777'
+
+" Default: 0.5
+let g:limelight_default_coefficient = 0.8
+
+" Number of preceding/following paragraphs to include (default: 0)
+let g:limelight_paragraph_span = 1
+
+" Beginning/end of paragraph
+"   When there's no empty line between the paragraphs
+"   and each paragraph starts with indentation
+let g:limelight_bop = '^\s'
+let g:limelight_eop = '\ze\n^\s'
+
+" Highlighting priority (default: 10)
+"   Set it to -1 not to overrule hlsearch
+let g:limelight_priority = -1
+
+
+""""""""""""""""""""
+" 5.Basic seting (option)
+""""""""""""""""""""
+syntax enable
+set encoding=utf-8 
+set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,big5,euc-jp,euc-kr,latin1
+set autochdir               "自动切换到文件所在目录 可用e打开同路径下新文件
+set autowrite               "自动保存结果
+set autoindent              "插入模式下换行自动缩进
+set cursorline
+set cursorcolumn
+set expandtab               "转换<tab>为<space>
+set history=2000
+set hlsearch
+set incsearch
+set laststatus=1
+set magic                   "\v(very magic) \m(magic) \M(nomagic) \V(very nomagic) 
+                            "四套正则表达式 magic对应\m ( ) +等符号非魔法表达式 
+set number                  "set nonu
+set nobackup
+set ruler
+set smartindent             "C风格缩进
+set showcmd         
+set showmode
+set showmatch
+set scrolloff=5             "距离顶部和底部5行时显隐文本
+set sidescroll=1
+set shiftwidth=4            "缩进宽度
+set tm=500
+set t_Co=256
+set tabstop=4               "制表符宽度
+set textwidth=100           "文本宽度
+set wildmenu                "补全候补
+set viminfo='2000,<2000
+highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=green guibg=NONE guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=green guibg=NONE guifg=NONE

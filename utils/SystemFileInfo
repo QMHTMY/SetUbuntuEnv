@@ -1,0 +1,23 @@
+#!/bin/bash
+#查看系统文件大小统计信息，需要输入 root 密码
+
+### Description:
+###     SystemFileInfo — show system files statistics information
+###
+### Date: 2021.04.21
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     sudo SystemFileInfo
+###
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+function static() {
+    sudo find $HOME -type f -printf "%s %p\n" > home_files_stats.txt
+    SystemFileStatic home_files_stats.txt && rm home_files_stats.txt
+}
+
+static

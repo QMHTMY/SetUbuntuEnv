@@ -1,0 +1,31 @@
+#!/bin/bash
+
+### Description:
+###     ConnectPhone  — use adb and scrcpy to connect Phone via WIFI (PC connect phone)
+###                     both PC and Phone must connect a same WIFI
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     ConnectPhone <Ip>
+###
+### Options:
+###     <Ip> Input your Phone Ip address
+###     -h,--help   Show help message.
+###
+### Example:
+###     ConnectPhone 113.54.196.249
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else
+    adb connect ${1}:5555 1>/dev/null 2>&1 &
+    scrcpy 1>/dev/null 2>&1  &
+fi

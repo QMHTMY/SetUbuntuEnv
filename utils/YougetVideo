@@ -1,0 +1,40 @@
+#!/bin/bash
+# 2020-06-21
+# 用you-get下载神器下载视频，
+# 按url逐个下载bilibili视频文件
+# sudo pip3 install you-get
+
+### Description:
+###     YougetVideo — Download video, radio from websites based on you-get
+###
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     YougetVideo <video_url>
+###     YougetVideo <video.url>
+###
+### Options:
+###     <video_url> Input a video/radio url.
+###     <video.url> Input a file contains video/radio urls (each row an url).
+###     -h,--help   Show help message.
+###
+### Example:
+###     YougetVideo https://www.youtube.com/xxx
+###     YougetVideo video.url
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [ -f "${1}" ]; then     #url files，download one by one
+    while read url
+    do
+        you-get -l --no-caption ${url}
+    done < ${1}
+else                         #url, download
+    you-get -l --no-caption  ${1}
+fi

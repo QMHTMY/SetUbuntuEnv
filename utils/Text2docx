@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# Shieber
+# 2019
+#
+# 将txt文件转换为docx文档
+# -a 将当前目录所有txt文件转换为docx格式
+
+import re, sys
+from os import listdir
+from docx import Document
+from os.path import  basename
+from os.path import  exists
+
+def get_titl_text(filename):
+    '''获取txt和title'''
+    try:
+        txtobj = open(filename)
+        title  = txtobj.readline()
+        text   = txtobj.read()
+        txtobj.close()
+    except Exception as err:
+        print("Error, file does not exist")
+        txtobj.close()
+        sys.exit(-1)
+
+    return title, text
+
+def write2docx(docxname,title,text):
+    '''将text内容写入docx'''
+    if not text:
+        print("Erro,no texture")
+        sys.exit(-1)
+
+    if exists(docxname):
+        docx = Document(docxname)
+    else:
+        docx = Document()
+
+    try:
+        docx.add_heading(title)
+        docx.add_paragraph(text)
+    except Exception as err:
+        print(f"错误:{err}")
+        sys.exit(-1)
+
+    docx.save(docxname)
+
+def text2docx():
+    '''主函数'''
+    argv = sys.argv
+    if len(argv) < 2:
+        prog_name = basename(argv[0])
+        print(f"Usage: {prog_name} [s1.txt] or {prog_name} -a")
+        sys.exit(-1)
+
+    if '-a' == argv[1]:
+        for fil in listdir('.'):
+            if not fil.endswith('.txt'):
+                continue
+            docxname = fil.split('.')[0] + '.docx'
+            title, text = get_titl_text(fil)
+            write2docx(docxname,title,text)
+    else:
+        for fil in argv[1:]:
+            if not fil.endswith('.txt'):
+                continue
+            docxname = fil.split('.')[0] + '.docx'
+            title, text = get_titl_text(fil)
+            write2docx(docxname,title,text)
+
+if __name__ == "__main__":
+    text2docx()

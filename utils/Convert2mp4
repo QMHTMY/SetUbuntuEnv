@@ -1,0 +1,67 @@
+#!/bin/bash
+#set -euxo pipefail
+# 输入视频作为参数 转换flv/avi/mkv/mov/mpeg/rmvb/wmv等格式视频为mp4格式，
+# 若无参数则转换当前目录下所有视频为mp4格式。
+
+### Description:
+###     Convert2mp4 — use ffmpeg to convert video to MP4 format
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Convert2mp4
+###     Convert2mp4 <video>
+###
+### Options:
+###     <video>     Input a video.
+###     -h,--help   Show help message.
+###     If you omit Options, the default action is
+###     to convert all videoes on current dir to mp4.
+###
+### Support formats
+###     .avi .flv .mkv .mov .mpg .mpeg .rmvb .wmv
+###
+### Example:
+###     Convert2mp4
+###     Convert2mp4 video.avi
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+#转换函数，可按ffmpeg支持的格式，修改下面的视频格式
+function convert2mp4() {
+    if   [ ${1##*.} = "flv"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "avi"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "mkv"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "mov"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "mpg"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "mpeg" ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "rmvb" ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    elif [ ${1##*.} = "wmv"  ]; then
+        ffmpeg -i ${1} -c copy -map 0 ${1%.*}.mp4 2>/dev/null
+    fi
+}
+
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [ -n "${1}" ]; then #有参数，直接转换为mp4格式
+    echo "转换${1}为mp4格式"
+    convert2mp4 ${1}
+else                     #无参数，转换当前目录下所有视频为mp4格式
+    echo "转换当前目录下所有视频为mp4格式"
+    for video in `ls .`
+    do
+        convert2mp4 ${video}
+    done
+fi

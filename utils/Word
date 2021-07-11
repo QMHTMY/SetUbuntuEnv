@@ -1,0 +1,43 @@
+#!/bin/bash
+# 命令行打开 word (doc/docx) 文档
+
+### Description:
+###     Word — use libreoffice to open doc/docx file while avoiding error message.
+###
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Word <doc>
+###     Word <docx>
+###
+### Options:
+###     <doc>       Input a doc file
+###     <docx>      Input a docx file
+###     -h,--help   Show help message.
+###
+### Example:
+###     Word file.doc
+###     Word file.docx
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+
+function openDocx() {
+    if [ "${1##*.}" = "docx" ]; then
+        libreoffice $1 >/dev/null 2>&1 &  #用libreoffice打开docx，忽略各种错误信息
+    elif [ "${1##*.}" = "doc" ]; then
+        libreoffice $1 >/dev/null 2>&1 &  #用libreoffice打开doc，忽略各种错误信息
+    else
+        echo 'Wrong file format, need [xxx.docx| xxx.doc]'
+        exit 1
+    fi
+}
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else                                         #有参数，打开文件
+    openDocx $1
+fi

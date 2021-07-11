@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+# 文档打包器：将文档打包为epub电子书格式
+
+import shutil
+import zipfile
+import os, sys, re
+
+def is_zip(item):
+    '''排除zip文件'''
+    zipP  = re.compile(r'(.*)\.zip')
+    match = zipP.search(item)
+    if match != None:
+        return True
+    else:
+        return False
+
+def is_redundent(name):
+    '''排除冗余文件'''
+    nameP = re.compile(r'\./(.*)/(.*)')
+    match = nameP.search(name)
+    if match != None:
+        return True
+    else:
+        return False
+
+def compress_file(path, target):
+    '''递归式的查找文件并压缩'''
+    #curdir = os.getcwd()
+    for parent,dirnames,filenames in os.walk(path):
+        for dirname in  dirnames:
+            compress_file(dirname,target)
+        for filename in filenames:
+            if is_zip(filename):
+                continue
+            name = os.path.join(parent,filename)
+
+            if is_redundent(name):
+                continue
+
+            nameP = re.compile(r'\./(.*)')
+            match = nameP.search(name)
+            if match:
+                name = match.group(1)
+
+            target.write(name)
+
+def zip_pack(argv):
+    '''打包总程序'''
+    if len(argv) != 2:
+        scriptName = os.path.basename(argv[0])
+        print(f"Usage: {scriptName} [filename].zip")
+        sys.exit(-1)
+
+    filename = os.getcwd() + '/' + argv[1] + '.zip'
+
+    with zipfile.ZipFile(filename,'w') as target:
+        compress_file('.', target)
+
+    return filename
+
+if __name__ == "__main__":
+    oldname = zip_pack(sys.argv)
+
+    nameP = re.compile(r'^(.*)\.zip$')
+    match = nameP.search(oldname)
+    newname = match.group(1) + '.epub'
+
+    shutil.move(oldname, newname)

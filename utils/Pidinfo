@@ -1,0 +1,49 @@
+#!/bin/bash
+# 根据用户输入的PID，过滤出该PID所有的信息
+
+### Description:
+###     Pidinfo — show the information about a process
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     Pidinfo  <pid>
+###
+### Options:
+###     <pid>       Input a process number.
+###     -h,--help   Show help message.
+###
+### Example:
+###     Pidinfo 1247
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+function lookup() {
+    echo "PID: $1"
+    echo "Cmd：`ps -aux   | awk '$2~/^'$1'$/{print $11}'`"
+    echo "Usr: `ps -aux   | awk '$2~/^'$1'$/{print $1}'`"
+    echo "CPU：`ps -aux   | awk '$2~/^'$1'$/{print $3}'`%"
+    echo "Mem：`ps -aux   | awk '$2~/^'$1'$/{print $4}'`%"
+    echo "Vmem：`ps -aux  | awk '$2~/^'$1'$/{print $5}'`"
+    echo "Smem：`ps -aux  | awk '$2~/^'$1'$/{print $6}'`"
+    echo "Start：`ps -aux | awk '$2~/^'$1'$/{print $9}'`"
+    echo "Durat：`ps -aux | awk '$2~/^'$1'$/{print $10}'`"
+    echo "State：`ps -aux | awk '$2~/^'$1'$/{print $8}'`"
+}
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+else
+    pid=$1
+    n=`ps -aux| awk '$2~/^'$pid'$/{print $11}'|wc -l`
+    if [ $n -eq 0 ];then
+        echo "PID does not exist!"
+        exit 1
+    fi
+fi
+
+lookup $pid

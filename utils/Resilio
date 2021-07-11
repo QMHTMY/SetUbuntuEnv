@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#firefox http://127.0.0.1:8888/
+google-chrome-stable http://127.0.0.1:8888/

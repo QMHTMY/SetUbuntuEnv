@@ -1,0 +1,49 @@
+#!/bin/bash
+# set -euxo pipefail
+# 安全删除文件，将rm给管起来，误删可恢复
+# 需要在某处创建一个垃圾箱目录如/home/username/Trash
+
+### Description:
+###     rm — move file to Trash incase of delete file accidently.
+###
+### Date: 2020.07.09
+### Author: Shieber
+### Email: QMH_XB_FLTMY@yahoo.com
+###
+### Usage:
+###     rm <file>
+###     rm <dir>
+###
+### Options:
+###     <file>      Input a file to be deleteed.
+###     <dir>       Input a directory to be deleted.
+###     -h,--help   Show help message.
+###
+### Example:
+###     rm file.pdf
+###     rm document/
+help() {
+    sed -rn 's/^### ?//;T;p' "$0"
+}
+
+# 判断目录是否存在用，
+USERNAME=`logname`
+TRASH_DIR="/home/$USERNAME/Trash"
+
+if [[ $# == 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    help
+    exit 1
+elif [ ! -d "$TRASH_DIR" ]; then  #不存在垃圾回收目录，创建
+    mkdir -p "$TRASH_DIR"
+    echo "删除文件存放在$TRASH_DIR"
+    echo "建议将如下内容加入/etc/crontab"
+    echo "每晚8点自动清理$TRASH_DIR中内容"
+    echo "0  20	* * *	root	/bin/rm -rf $TRASH_DIR/*"
+fi
+
+# 给文件添加时间戳并移动到TRASH_DIR
+for file in $*; do
+	STAMP=`date +%s`
+	FILENAME=`basename $file`
+	mv $file $TRASH_DIR/$FILENAME.$STAMP
+done
