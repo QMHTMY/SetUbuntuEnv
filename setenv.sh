@@ -33,20 +33,15 @@ pip3 install pandoc you-get
 
 snap install cheat
 
-# 4.安装百度云、网易云音乐
-curl https://issuecdn.baidupcs.com/issue/netdisk/LinuxGuanjia/3.5.0/baidunetdisk_3.5.0_amd64.deb
-curl https://d1.music.126.net/dmusic/netease-cloud-music_1.2.1_amd64_ubuntu_20190428.deb
-sudo dpkg -i *.deb && rm *.deb
-
-# 5.安装自定义软件到系统
+# 4.安装自定义软件到系统
 sudo mkdir -p /usr/local/utilsbin/
 sudo cp utils/* /usr/local/utilsbin/
 
-# 6.安装字体到自定义目录 myfonts/
+# 5.安装字体到自定义目录 myfonts/
 sudo mkdir -p /usr/share/fonts/myfonts/
 sudo cp fonts/* /usr/share/fonts/myfonts/
 
-# 7.安装各种编程语言 dart go rust，c, cpp 不需安装，js、java 需自行下载安装
+# 6.安装各种编程语言 dart go rust，c, cpp 不需安装，js、java 需自行下载安装
 mkdir ~/language
 mkdir ~/language/{c,cpp,dart}
 mkdir ~/language/{go,java,javascript}
@@ -60,7 +55,7 @@ rm go1.16.5.linux-amd64.tar.gz
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh     # rust
 
-# 8.配置 crontab、bash、terminator、vim
+# 7.配置 crontab、bash、terminator、vim
 sudo cp settings/crontab /etc/crontab
 sudo service cron reload && sudo service cron restart
 
@@ -71,13 +66,21 @@ cp settings/config ~/.config/terminator/
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 cp settings/vimrc ~/.vimrc
 
-# 9.系统图标美化
+# 8.系统图标美化
 sudo apt install gnome-tweak-tool
 sudo apt install gnome-shell-extensions
-sudo cp themes/* /usr/share/themes/
-sudo cp icons/* /usr/share/icons/
 
-# 10.提示信息：必须手动操作的步骤
+for ARK in themes/*.tar.gz
+do
+    tar -zxf $ARK -C /usr/share/themes/
+done
+
+for ARK in icons/*.tar.gz
+do
+    tar -zxf $ARK -C /usr/share/icons/
+done
+
+# 9.提示信息：必须手动操作的步骤
 echo "请打开 ~/.vimrc 输入 :PluginInstall 以安装 vim 插件"
 echo "请打开 https://extensions.gnome.org/ 安装浏览器插件并搜索安装 dash to dock 等插件"
 echo "请打开 gnome-tweak-tool 开启 dash to dock、uer theme 并设置程序和shell的图标及壁纸"
