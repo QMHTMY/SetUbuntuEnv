@@ -1,15 +1,15 @@
 """""""""""""""""""""""
 " 0. Vim plugin manager
 """""""""""""""""""""""
-set nocompatible                         "关闭兼容vi模式 
-"filetype off                 
+set nocompatible                         "关闭兼容vi模式
+"filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'codota/tabnine-vim'               "AI智能补全代码
 Plugin 'lervag/vimtex'                    "latex 语法支持
-Plugin 'iamcco/markdown-preview.nvim'     "支持 Markdown dot chart flowchart plantuml 
+Plugin 'iamcco/markdown-preview.nvim'     "支持 Markdown dot chart flowchart plantuml
 Plugin 'scrooloose/nerdtree'              "项目文件树 进入项目输入 vim . 查看文件
 Plugin 'sheerun/vim-polyglot'             "支持多语言语法
 Plugin 'jiangmiao/auto-pairs'             "输入左括号，自动出现右括号
@@ -18,18 +18,18 @@ Plugin 'tpope/vim-surround'               "修改成对的括号，引号
 Plugin 'ntpeters/vim-better-whitespace'   "删除末尾多余空格
 "Plugin 'SirVer/ultisnips'                 "代码片端 snippet 使用 配合 vim-snippets 使用
 "Plugin 'QMHTMY/vim-snippets'              "自定义代码片端
-call vundle#end()          
+call vundle#end()
 
 filetype plugin on                       "文件类型检测
 filetype indent on                       "文件自动缩进
 " 忽视插件改变缩进,可以使用以下替代:
 " 常用的命令
 " :PluginList       - 列出所有已配置的插件
-" :PluginInstall    - 安装插件,追加 `!` 以更新或使用 
-" :PluginUpdate     - 更新插件 
+" :PluginInstall    - 安装插件,追加 `!` 以更新或使用
+" :PluginUpdate     - 更新插件
 " :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
 " :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
-" :bdelete 
+" :bdelete
 " 将你自己对非插件片段放在这行之后
 " 移除不需要的插件
 " 编辑.vimrc文件移除的你要移除的插件所对应的plugin那一行。
@@ -37,7 +37,7 @@ filetype indent on                       "文件自动缩进
 
 
 """""""""""""""""""""""
-" 1.Vimtex plugin 
+" 1.Vimtex plugin
 """""""""""""""""""""""
 let g:tex_flavor='xelatex'
 let g:vimtex_quickfix_mode=0
@@ -67,7 +67,7 @@ let g:vimtex_compiler_latexmk={
 nmap <C-s> <Plug>MarkdownPreview
 nmap <M-s> <Plug>MarkdownPreviewStop
 nmap <C-p> <Plug>MarkdownPreviewToggle
- 
+
 let g:mkdp_auto_start = 1
 " 设置为1可以在打开markdown文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
 let g:mkdp_auto_close = 1
@@ -138,7 +138,7 @@ nnoremap <F2> f :exe ':silent !google-chrome %'<CR>
 
 
 """"""""""""""""""""
-" 4.Limelight 
+" 4.Limelight
 """"""""""""""""""""
 " Color name (:help cterm-colors) or ANSI code
 let g:limelight_conceal_ctermfg = 'gray'
@@ -169,7 +169,7 @@ let g:limelight_priority = -1
 " 5.Basic seting (option)
 """"""""""""""""""""
 syntax enable
-set encoding=utf-8 
+set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,big5,euc-jp,euc-kr,latin1
 set autochdir               "自动切换到文件所在目录 可用e打开同路径下新文件
 set autowrite               "自动保存结果
@@ -181,13 +181,13 @@ set history=2000
 set hlsearch
 set incsearch
 set laststatus=1
-set magic                   "\v(very magic) \m(magic) \M(nomagic) \V(very nomagic) 
-                            "四套正则表达式 magic对应\m ( ) +等符号非魔法表达式 
+set magic                   "\v(very magic) \m(magic) \M(nomagic) \V(very nomagic)
+                            "四套正则表达式 magic对应\m ( ) +等符号非魔法表达式
 set number                  "set nonu
 set nobackup
 set ruler
 set smartindent             "C风格缩进
-set showcmd         
+set showcmd
 set showmode
 set showmatch
 set scrolloff=5             "距离顶部和底部5行时显隐文本

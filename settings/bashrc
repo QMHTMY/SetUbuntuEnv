@@ -19,7 +19,7 @@ shopt -s histappend
 HISTSIZE=2000
 HISTFILESIZE=2000
 HISTIGNORE="pwd:clc:clear:ls:cd:mv:sudo"
-HISTTIMEFORMAT="%F %T `whoami` "  
+HISTTIMEFORMAT="%F %T `whoami` "
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -64,7 +64,7 @@ fi
 #\033[0;33m：棕色   \033[1;33m：黄色   \033[0;34m：蓝色
 #\033[1;34m：浅蓝色 \033[0;35m：粉红   \033[1;35m：浅粉色
 #\033[0;36m：青色   \033[1;36m：浅青色 \033[0;37m：浅灰色
-#\033[1;37m：白色   \033[00m: 恢复默认颜色   
+#\033[1;37m：白色   \033[00m: 恢复默认颜色
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[01;32m\] 🐄  \[\033[00m\]'
     #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[01;32m\]\$ \[\033[00m\]'
@@ -166,15 +166,15 @@ alias vi='vim'
 alias svi='sudo vi'
 alias clc='clear'
 alias vlc='/usr/local/shibin/vlc'
-alias www='python3 -m SimpleHTTPServer 9090' 
-alias Man='tldr' 
+alias www='python3 -m SimpleHTTPServer 9090'
+alias Man='tldr'
 alias sudo='sudo env PATH=$PATH'
 alias pingb='ping -c 4 www.baidu.com'
 alias battery="upower -i `upower -e | grep 'BAT'`"
-alias Install='sudo apt install' 
-alias Update='sudo apt update; sudo apt upgrade -y' 
+alias Install='sudo apt install'
+alias Update='sudo apt update; sudo apt upgrade -y'
 #alias k='kubectl'
-#alias pdf='evince' 
+#alias pdf='evince'
 #alias web='source ~/env/website/bin/activate'
 #alias bok='source ~/env/bookmarks/bin/activate'
 #alias tensor='source ~/env/tensor/bin/activate'
