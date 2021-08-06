@@ -56,13 +56,13 @@ mkdir ~/language/{c,cpp,dart}
 mkdir ~/language/{go,java,javascript}
 mkdir ~/language/{python,rust}
 
-sudo apt install dart                                              # dart
+sudo apt install dart                                                                                                        # install dart
 
-curl https://studygolang.com/dl/golang/go1.16.5.linux-amd64.tar.gz # golang
-sudo tar -C /usr/local -zxf go1.16.5.linux-amd64.tar.gz
-rm go1.16.5.linux-amd64.tar.gz
+wget https://studygolang.com/dl/golang/go1.16.6.linux-amd64.tar.gz  # install golang
+sudo tar -C /usr/local -zxf go1.16.6.linux-amd64.tar.gz
+rm go1.16.6.linux-amd64.tar.gz
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh     # rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh                              # install rust
 
 # 7.配置 crontab、bash、terminator、vim
 sudo cp settings/crontab /etc/crontab
