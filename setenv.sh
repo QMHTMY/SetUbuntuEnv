@@ -23,7 +23,7 @@ sudo apt update && sudo apt upgrade -y
 
 sudo apt install -y curl wget atril axel aria2c
 sudo apt install -y apt-transport-https htop terminator pass
-sudo apt install -y graphviz adb scrcpy ncdu tldr
+sudo apt install -y graphviz adb scrcpy ncdu tldr # graphviz: dot -T png xx.dot -o xx.png
 sudo apt install -y vim git opencc cloc
 sudo apt install -y meld byzanz-record ffmpeg mencoder
 sudo apt install -y python3-pip google-chrome-stable docker.io
@@ -32,6 +32,15 @@ pip3 install requests numpy py2pdf docx matplotlib bs4
 pip3 install pandoc you-get
 
 snap install cheat
+
+# 安装 graph-easy 画ascii 图 graph-easy xxx.dot  
+curl https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Graph-Easy-0.76.tar.gz -o Graph-Easy.tar.gz
+tar -zxf Graph-Easy.tar.gz 
+cd Graph-Easy*/
+perl Makefile.PL 
+make test 
+sudo make install
+cd ..
 
 # 4.安装自定义软件到系统
 sudo mkdir -p /usr/local/utilsbin/
