@@ -24,7 +24,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl wget atril axel aria2c
 sudo apt install -y apt-transport-https htop terminator pass
 sudo apt install -y graphviz adb scrcpy ncdu tldr # graphviz: dot -T png xx.dot -o xx.png
-sudo apt install -y vim git opencc cloc
+sudo apt install -y vim git opencc cloc xsel
 sudo apt install -y meld byzanz-record ffmpeg mencoder
 sudo apt install -y python3-pip google-chrome-stable docker.io
 
