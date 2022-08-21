@@ -22,6 +22,7 @@ sudo sh -c 'wget -qO- https://storage.flutter-io.cn/download.dartlang.org/linux/
 sudo apt update && sudo apt upgrade -y
 
 sudo apt install -y curl wget atril axel aria2c
+sudo apt install -y zstd lz4
 sudo apt install -y apt-transport-https htop terminator pass
 sudo apt install -y graphviz adb scrcpy ncdu tldr
 sudo apt install -y vim git opencc cloc
